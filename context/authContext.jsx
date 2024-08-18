@@ -4,13 +4,13 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(undefined);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    setTimeout(()=>{
-  setIsAuthenticated(false)
-    },3000)
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(()=>{
+  // setIsAuthenticated(false)
+  //   },1000)
+  // }, []);
 
   const login = async (email, password) => {
     try {
