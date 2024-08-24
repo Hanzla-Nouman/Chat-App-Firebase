@@ -1,94 +1,147 @@
-import { View, Text, Image, TextInput, TouchableHighlight, Pressable } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableHighlight,
+  Pressable,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  Alert,
+} from "react-native";
+import React, { useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Octicons } from "@expo/vector-icons";
+import { Feather, Octicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 
 export default function signUp() {
-  const router = useRouter()
+  const router = useRouter();
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const username = useRef("");
+  const profileUrl = useRef("");
+  const handleSignup = async () => {
+    if (!passwordRef.current && !username.current && !emailRef.current && !profileUrl.current) {
+      Alert.alert("Sign Up", "Please fill all the credentials");
+      return;
+    }
+  };
+  const ios = Platform.OS ==="ios"
   return (
-    <View className="flex-1 ">
+            <KeyboardAvoidingView behavior="height " className="">
+            <ScrollView className=" " showsVerticalScrollIndicator={false} overScrollMode="never">
+    <View className="flex-1  ">
       <StatusBar style="dark" />
       <View
         style={{ paddingTop: hp(4), paddingHorizontal: wp(5) }}
-        className="flex-1 gap-12"
+        className="flex-1  justify-evenly"
       >
         <View className="items-center">
           <Image
             style={{ height: hp(28), width: wp(90) }}
             resizeMode="contain"
-            source={require("../assets/images/login.jpg")}
+            source={require("../assets/images/signin.png")}
           />
         </View>
-        <View className=" gap-y-6 ">
-          <Text
-            style={{ fontSize: hp(4) }}
-            className="font-bold tracking-wide text-center text-neutral-800"
-          >
-            Sign Up
-          </Text>
-          <View className="gap-y-5">
-            <View
-              style={{ height: hp(7), width: wp(90) }}
-              className="flex-row  px-4 text-center bg-neutral-100 items-center   rounded-xl"
+       
+          <View className=" gap-y-6 ">
+            <Text
+              style={{ fontSize: hp(4) }}
+              className="font-bold tracking-wide text-center text-neutral-800"
             >
-              <Octicons name="mail" color={"gray"} size={hp(2.7)} />
-              <TextInput
-                style={{ fontSize: hp(2) }}
-                placeholder="Email Address"
-                className="flex-1 font-semibold text-neutral-700 ml-4"
-              />
-            </View>
-            <View>
+              Sign Up
+            </Text>
+              <View className="gap-y-5">
               <View
                 style={{ height: hp(7), width: wp(90) }}
                 className="flex-row  px-4 text-center bg-neutral-100 items-center   rounded-xl"
               >
-                <Octicons name="lock" color={"gray"} size={hp(2.7)} />
+                <Feather name="image" color={"gray"} size={hp(2.7)} />
                 <TextInput
+                  onChangeText={(value) => (profileUrl.current = value)}
                   style={{ fontSize: hp(2) }}
-                  placeholder="Password"
+                  placeholder="Profile Url"
                   className="flex-1 font-semibold text-neutral-700 ml-4"
                 />
               </View>
-             
-            </View>
-            <View>
               <View
                 style={{ height: hp(7), width: wp(90) }}
                 className="flex-row  px-4 text-center bg-neutral-100 items-center   rounded-xl"
               >
-                <Octicons name="lock" color={"gray"} size={hp(2.7)} />
+                <Feather name="user" color={"gray"} size={hp(2.7)} />
+               
                 <TextInput
+                  onChangeText={(value) => (username.current = value)}
                   style={{ fontSize: hp(2) }}
-                  placeholder="Password"
+                  placeholder="Username"
                   className="flex-1 font-semibold text-neutral-700 ml-4"
                 />
               </View>
-             
-            </View>
-            <View>
-            <TouchableHighlight className="bg-emerald-500 py-3 rounded-xl">
-              <Text style={{ fontSize: hp(2.8) }} className="text-white text-center font-semibold tracking-wider">Sign Up</Text>
-            </TouchableHighlight>
-            <View className="flex-row gap-x-3 justify-center mt-3 ">
-            <Text className="font-semibold text-neutral-500" style={{fontSize: hp(1.8)}}>
-              Already have an account?
-            </Text>
-            <Pressable onPress={()=>router.navigate('log-in')}>
-            <Text className="font-bold text-emerald-500" style={{fontSize: hp(1.8)}}>
-              Login
-            </Text>
-            </Pressable>
-            </View>
-            </View>
+              <View
+                style={{ height: hp(7), width: wp(90) }}
+                className="flex-row  px-4 text-center bg-neutral-100 items-center   rounded-xl"
+              >
+                <Octicons name="mail" color={"gray"} size={hp(2.7)} />
+                <TextInput
+                  onChangeText={(value) => (emailRef.current = value)}
+                  style={{ fontSize: hp(2) }}
+                  placeholder="Email Address"
+                  className="flex-1 font-semibold text-neutral-700 ml-4"
+                />
+              </View>
+              <View>
+                <View
+                  style={{ height: hp(7), width: wp(90) }}
+                  className="flex-row  px-4 text-center bg-neutral-100 items-center   rounded-xl"
+                >
+                  <Octicons name="lock" color={"gray"} size={hp(2.7)} />
+                  <TextInput
+                    onChangeText={(value) => (passwordRef.current = value)}
+                    style={{ fontSize: hp(2) }}
+                    placeholder="Password"
+                    className="flex-1 font-semibold text-neutral-700 ml-4"
+                  />
+                </View>
+              </View>
+
+
+              <View>
+                <TouchableHighlight className="bg-emerald-500 py-3 rounded-xl" onPress={handleSignup}>
+                  <Text
+                    style={{ fontSize: hp(2.8) }}
+                    className="text-white text-center font-semibold tracking-wider"
+                  >
+                    Sign Up
+                  </Text>
+                </TouchableHighlight>
+                <View className="flex-row gap-x-3 justify-center mt-3 ">
+                  <Text
+                    className="font-semibold text-neutral-500"
+                    style={{ fontSize: hp(1.8) }}
+                  >
+                    Already have an account?
+                  </Text>
+                  <Pressable onPress={() => router.navigate("log-in")}>
+                    <Text
+                      className="font-bold text-emerald-500"
+                      style={{ fontSize: hp(1.8) }}
+                    >
+                      Login
+                    </Text>
+                  </Pressable>
+                </View>
+              </View>
+              </View>
           </View>
-        </View>
+       
       </View>
     </View>
+            </ScrollView>
+            </KeyboardAvoidingView>
   );
 }

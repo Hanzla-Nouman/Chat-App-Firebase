@@ -8,7 +8,6 @@ function MainLayout() {
   const segments = useSegments();
   useEffect(() => {
     if (typeof isAuthenticated === undefined) return;
-    console.log(isAuthenticated)
     const inApp = segments[0] === "(app)";
     if (isAuthenticated && !inApp) {
       router.replace("/home");
