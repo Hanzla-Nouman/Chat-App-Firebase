@@ -1,16 +1,25 @@
+import { auth } from "@/firebaseConfiguration";
+import { onAuthStateChanged } from "firebase/auth";
 import { useState, createContext, useEffect, useContext } from "react";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(undefined);
 
-  // useEffect(() => {
-  //   setTimeout(()=>{
-  // setIsAuthenticated(false)
-  //   },1000)
-  // }, []);
+  useEffect(() => {
+   const unsub = onAuthStateChanged(auth,(user)=>{
+    if(user){
+      setIsAuthenticated(true);
+      setUser(user)
+    }else{
+      setIsAuthenticated(false);
+      setUser(null)
+    }
+   })
+   return unsub;
+  }, []);
 
   const login = async (email, password) => {
     try {
