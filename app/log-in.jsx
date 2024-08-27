@@ -18,18 +18,26 @@ import {
 import { Octicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
 import Loading from "@/components/loading";
+import { useAuth } from "@/context/authContext";
 
 export default function logIn() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-
+ const {login} = useAuth()
   const handleLogin = async () => {
     if (!passwordRef.current && !emailRef.current) {
       Alert.alert("Sign In", "Please fill all the credentials");
       return;
     }
+    setLoading(true)
+   const response = await login(emailRef.current,passwordRef.current)
+   setLoading(false)
+   console.log("results",response.success)
+   if (!response.success) {
+     Alert.alert("Sign In", response.message);
+   }
   };
   return (
     <KeyboardAvoidingView behavior="height " className="">

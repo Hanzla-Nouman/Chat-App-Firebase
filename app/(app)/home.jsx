@@ -1,10 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import React from 'react'
+import { useAuth } from '@/context/authContext'
 
 export default function home() {
+  const {logout} = useAuth()
   return (
     <View>
-      <Text>Home</Text>
+      <Pressable onPress={logout}>
+      <Text>Logout</Text>
+      </Pressable>
     </View>
   )
 }

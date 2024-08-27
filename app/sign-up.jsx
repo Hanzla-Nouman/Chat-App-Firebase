@@ -10,7 +10,7 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import {
   widthPercentageToDP as wp,
@@ -18,22 +18,33 @@ import {
 } from "react-native-responsive-screen";
 import { Feather, Octicons } from "@expo/vector-icons";
 import { useNavigation, useRouter } from "expo-router";
+import { useAuth } from "@/context/authContext";
+import Loading from "@/components/loading";
 
 export default function signUp() {
+  const {register} = useAuth()
   const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const username = useRef("");
   const profileUrl = useRef("");
+  const [loading, setLoading] = useState(false);
   const handleSignup = async () => {
     if (!passwordRef.current && !username.current && !emailRef.current && !profileUrl.current) {
       Alert.alert("Sign Up", "Please fill all the credentials");
       return;
     }
+    setLoading(true)
+    let response = await register(passwordRef.current ,username.current ,emailRef.current,profileUrl.current)
+    setLoading(false)
+    console.log("results",response)
+    if (!response.success) {
+      Alert.alert("Sign Up", response.message);
+    }
   };
   const ios = Platform.OS ==="ios"
   return (
-            <KeyboardAvoidingView behavior="height " className="">
+    <KeyboardAvoidingView behavior="height " className="">
             <ScrollView className=" " showsVerticalScrollIndicator={false} overScrollMode="never">
     <View className="flex-1  ">
       <StatusBar style="dark" />
@@ -111,7 +122,13 @@ export default function signUp() {
 
 
               <View>
-                <TouchableHighlight className="bg-emerald-500 py-3 rounded-xl" onPress={handleSignup}>
+              {loading ? (
+                <Loading size={hp(10)} />
+              ) : (
+                <TouchableHighlight
+                  onPress={handleSignup}
+                  className="bg-emerald-500 py-3 rounded-xl"
+                >
                   <Text
                     style={{ fontSize: hp(2.8) }}
                     className="text-white text-center font-semibold tracking-wider"
@@ -119,6 +136,7 @@ export default function signUp() {
                     Sign Up
                   </Text>
                 </TouchableHighlight>
+              )}
                 <View className="flex-row gap-x-3 justify-center mt-3 ">
                   <Text
                     className="font-semibold text-neutral-500"
