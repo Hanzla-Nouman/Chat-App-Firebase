@@ -5,7 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState, createContext, useEffect, useContext } from "react";
 
 export const AuthContext = createContext();
@@ -19,6 +19,7 @@ export const AuthContextProvider = ({ children }) => {
       if (user) {
         setIsAuthenticated(true);
         setUser(user);
+        updateUserData(user.uid)
       } else {
         setIsAuthenticated(false);
         setUser(null);
@@ -26,6 +27,16 @@ export const AuthContextProvider = ({ children }) => {
     });
     return unsub;
   }, []);
+
+   const updateUserData = async (userId )=>{
+    const docRef = doc(db,"users",userId);
+    const docSnap = await getDoc(docRef)
+
+    if(docSnap.exists()){
+      let data = docSnap.data();
+      setUser({...user,username:data.username,profileUrl:data.profileUrl,userId:data.userId,})
+    }
+   }
 
   const login = async (email, password) => {
     try {
@@ -62,9 +73,9 @@ export const AuthContextProvider = ({ children }) => {
         profileUrl,
         userId: response?.user?.uid,
       });
-      return { succes: true, data: response?.user };
+      return { success: true, data: response?.user };
     } catch (error) {
-      return { succes: false, message: error.message };
+      return { success: false, message: error.message };
     }
   };
   return (

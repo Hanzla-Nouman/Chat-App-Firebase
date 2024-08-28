@@ -34,7 +34,7 @@ export default function logIn() {
     setLoading(true)
    const response = await login(emailRef.current,passwordRef.current)
    setLoading(false)
-   console.log("results",response.success)
+   console.log("results",response)
    if (!response.success) {
      Alert.alert("Sign In", response.message);
    }

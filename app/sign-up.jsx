@@ -112,6 +112,7 @@ export default function signUp() {
                 >
                   <Octicons name="lock" color={"gray"} size={hp(2.7)} />
                   <TextInput
+                    secureTextEntry
                     onChangeText={(value) => (passwordRef.current = value)}
                     style={{ fontSize: hp(2) }}
                     placeholder="Password"
