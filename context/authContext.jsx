@@ -48,8 +48,10 @@ export const AuthContextProvider = ({ children }) => {
       );
       return { success: true, data: response?.user };
     } catch (error) {
-      console.log("Error in login",error)
-      return { success: false, message: error.message };
+      let msg = error.message;
+      if(msg.includes('(auth/invalid-email)')) msg='Invalid Email'
+      if(msg.includes('(auth/invalid-credential)')) msg='Wrong Credentials'
+      return { success: false, message: msg };
     }
   };
   const logout = async () => {
@@ -75,7 +77,10 @@ export const AuthContextProvider = ({ children }) => {
       });
       return { success: true, data: response?.user };
     } catch (error) {
-      return { success: false, message: error.message };
+      let msg = error.message;
+      if(msg.includes('(auth/invalid-email)')) msg='Invalid Email'
+      if(msg.includes('(auth/email-already-in-use)')) msg='Email is already in use'
+      return { success: false, message: msg };
     }
   };
   return (
