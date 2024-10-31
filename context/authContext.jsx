@@ -51,6 +51,7 @@ export const AuthContextProvider = ({ children }) => {
       let msg = error.message;
       if(msg.includes('(auth/invalid-email)')) msg='Invalid Email'
       if(msg.includes('(auth/invalid-credential)')) msg='Wrong Credentials'
+      if(msg.includes('(auth/network-request-failed)')){ msg='Network Issue!'}
       return { success: false, message: msg };
     }
   };
@@ -80,6 +81,7 @@ export const AuthContextProvider = ({ children }) => {
       let msg = error.message;
       if(msg.includes('(auth/invalid-email)')) msg='Invalid Email'
       if(msg.includes('(auth/email-already-in-use)')) msg='Email is already in use'
+      if(msg.includes('(auth/network-request-failed)')) msg='Network Issue! '
       return { success: false, message: msg };
     }
   };

@@ -60,7 +60,7 @@ export default function logIn() {
             style={{ fontSize: hp(4) }}
             className="font-bold tracking-wide text-center text-neutral-800"
           >
-            Sign In 
+            Sign In
           </Text>
        
           <View className="gap-y-5  ">
