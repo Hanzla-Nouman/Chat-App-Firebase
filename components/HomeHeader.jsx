@@ -12,7 +12,7 @@ import { useAuth } from "@/context/authContext";
 export default function HomeHeader() {
   const { top } = useSafeAreaInsets();
   const {user} = useAuth()
-  console.log("home",user?.profileUrl)
+  console.log("Url",user?.profileUrl)
   return (
     <View
       className="pb-2 rounded-b-2xl px-5 flex-row justify-between bg-emerald-400"

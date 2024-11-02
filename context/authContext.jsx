@@ -70,15 +70,21 @@ export const AuthContextProvider = ({ children }) => {
         email,
         password
       );
-      // console.log(response?.user);
+      console.log("ID:", response?.user?.uid);
+      console.log(response?.user);
       console.log(profileUrl,"HEREEEEEEEEEE")
       console.log(username,"USERNAME")
-      await setDoc(doc(db, "users", response?.user?.uid), {
-        username,
-        profileUrl,
-        userId: response?.user?.uid,
-      });
-    
+      try {
+        await setDoc(doc(db, "users", response?.user?.uid), {
+          username:"HanzlaNouman",
+          profileUrl:"https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+          userId: response?.user?.uid,
+        });
+      } catch (error) {
+        console.error("Error writing document: ", error);
+        return { success: false, message: "Error writing user data" };
+      }
+      
       return { success: true, data: response?.user };
     } catch (error) {
       let msg = error.message;
