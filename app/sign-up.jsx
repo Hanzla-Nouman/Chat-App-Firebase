@@ -30,6 +30,7 @@ export default function signUp() {
   const profileUrl = useRef("");
   const [loading, setLoading] = useState(false);
   const handleSignup = async () => {
+    console.log(profileUrl.current)
     if (!passwordRef.current && !username.current && !emailRef.current && !profileUrl.current) {
       Alert.alert("Sign Up", "Please fill all the credentials");
       return;

@@ -12,6 +12,7 @@ import { useAuth } from "@/context/authContext";
 export default function HomeHeader() {
   const { top } = useSafeAreaInsets();
   const {user} = useAuth()
+  console.log("home",user?.profileUrl)
   return (
     <View
       className="pb-2 rounded-b-2xl px-5 flex-row justify-between bg-emerald-400"
@@ -20,7 +21,7 @@ export default function HomeHeader() {
       <StatusBar style="dark" />
 
       <Text style={{ fontSize: hp(3) }} className="font-medium text-white">
-        Chats
+        {user.email}
       </Text>
       <Image
         style={{height: hp(4.3),borderRadius:100,aspectRatio:1}}
