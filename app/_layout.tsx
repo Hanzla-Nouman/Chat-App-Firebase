@@ -1,6 +1,7 @@
 import { AuthContextProvider, useAuth } from "@/context/authContext";
 import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
+import { MenuProvider } from "react-native-popup-menu";
 
 function MainLayout() {
   const router = useRouter();
@@ -22,8 +23,10 @@ function MainLayout() {
 
 export default function RootLayout() {
   return (
+    <MenuProvider>
     <AuthContextProvider>
       <MainLayout />
     </AuthContextProvider>
+    </MenuProvider>
   );
 }
